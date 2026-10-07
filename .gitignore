@@ -20,3 +20,11 @@ coverage/*
 
 # Promptkit repository
 promptkit
+
+# Firebase service account keys
+*service-account*.json
+firebase-adminsdk*.json
+
+# Other env files (keep the example committed)
+.env.*
+!.env.example
