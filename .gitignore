@@ -4,8 +4,7 @@ node_modules
 # Logs
 *.log
 
-# SQLite DBs
-*.sqlite3
+
 
 # Build products
 /dist

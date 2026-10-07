@@ -1,46 +1,29 @@
+import 'dotenv/config'
 import * as Path from 'node:path'
 import * as URL from 'node:url'
 
 const __filename = URL.fileURLToPath(import.meta.url)
 const __dirname = Path.dirname(__filename)
 
+const shared = {
+  client: 'pg',
+  migrations: { directory: Path.join(__dirname, 'migrations') },
+  seeds: { directory: Path.join(__dirname, 'seeds') },
+}
+
+const supabaseConnection = {
+  connectionString: process.env.DATABASE_URL,
+  ssl: { rejectUnauthorized: false },
+}
+
 export default {
-  development: {
-    client: 'sqlite3',
-    useNullAsDefault: true,
-    connection: {
-      filename: Path.join(__dirname, 'dev.sqlite3'),
-    },
-    pool: {
-      afterCreate: (conn, cb) => conn.run('PRAGMA foreign_keys = ON', cb),
-    },
-  },
-
+  development: { ...shared, connection: supabaseConnection },
+  production: { ...shared, connection: supabaseConnection },
   test: {
-    client: 'sqlite3',
-    useNullAsDefault: true,
+    ...shared,
     connection: {
-      filename: ':memory:',
-    },
-    migrations: {
-      directory: Path.join(__dirname, 'migrations'),
-    },
-    seeds: {
-      directory: Path.join(__dirname, 'seeds'),
-    },
-    pool: {
-      afterCreate: (conn, cb) => conn.run('PRAGMA foreign_keys = ON', cb),
-    },
-  },
-
-  production: {
-    client: 'sqlite3',
-    useNullAsDefault: true,
-    connection: {
-      filename: '/app/storage/prod.sqlite3',
-    },
-    pool: {
-      afterCreate: (conn, cb) => conn.run('PRAGMA foreign_keys = ON', cb),
+      connectionString: process.env.DATABASE_URL_TEST,
+      ssl: { rejectUnauthorized: false },
     },
   },
 }
