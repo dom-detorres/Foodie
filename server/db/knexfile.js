@@ -1,9 +1,10 @@
-import 'dotenv/config'
 import * as Path from 'node:path'
 import * as URL from 'node:url'
-
+import dotenv from 'dotenv'
 const __filename = URL.fileURLToPath(import.meta.url)
 const __dirname = Path.dirname(__filename)
+
+dotenv.config({ path: Path.join(__dirname, '../../.env') })
 
 const shared = {
   client: 'pg',
